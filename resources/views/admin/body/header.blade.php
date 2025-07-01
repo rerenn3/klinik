@@ -34,18 +34,69 @@
                 </div>
             </form>
 
-
         </div>
 
         <div class="d-flex">
 
-
-
+            <!-- Fullscreen Button -->
             <div class="dropdown d-none d-lg-inline-block ms-1">
                 <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
                     <i class="ri-fullscreen-line"></i>
                 </button>
             </div>
+
+            <!-- 🔔 Notifikasi Stok Menipis -->
+            <div class="dropdown d-inline-block">
+                <button type="button" class="btn header-item noti-icon waves-effect" id="page-header-notification-dropdown"
+                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="ri-notification-3-line"></i>
+                    @if(isset($lowStockCount) && $lowStockCount > 0)
+                        <span class="badge bg-danger rounded-pill">{{ $lowStockCount }}</span>
+                    @endif
+                </button>
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
+                    aria-labelledby="page-header-notification-dropdown">
+                    <div class="p-3">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h6 class="m-0"> Notifikasi Stok </h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div data-simplebar style="max-height: 230px;">
+                        @if(isset($lowStockItems) && $lowStockItems->count())
+                            @foreach($lowStockItems as $item)
+                                <a href="#" class="text-reset notification-item">
+                                    <div class="d-flex">
+                                        <div class="avatar-xs me-3">
+                                            <span class="avatar-title bg-warning rounded-circle font-size-16">
+                                                <i class="ri-capsule-line"></i>
+                                            </span>
+                                        </div>
+                                        <div class="flex-1">
+                                            <h6 class="mt-0 mb-1">{{ $item->name }}</h6>
+                                            <div class="font-size-12 text-muted">
+                                                Sisa stok: <strong>{{ $item->stock }}</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            @endforeach
+                        @else
+                            <div class="text-center text-muted p-3">
+                                Semua stok aman 👍
+                            </div>
+                        @endif
+                    </div>
+                    <div class="p-2 border-top">
+                        <a class="btn btn-sm btn-link font-size-14 w-100 text-center" href="{{ route('stock.report') }}">
+
+                            <i class="mdi mdi-arrow-right-circle me-1"></i> Lihat Semua Stok
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- 🔔 END Notifikasi -->
 
             @php
             $id = Auth::user()->id;
@@ -73,8 +124,6 @@
                             class="ri-shut-down-line align-middle me-1 text-danger"></i> Logout</a>
                 </div>
             </div>
-
-
 
         </div>
     </div>

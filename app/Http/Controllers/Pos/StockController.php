@@ -52,6 +52,12 @@ class StockController extends Controller
         return view('backend.pdf.product_wise_report_pdf',compact('product'));
     } // End Method
 
+    public function ManageStock()
+    {
+        $allProducts = Product::orderBy('name')->get();
+        return view('backend.stock.manage_stock', compact('allProducts'));
+    }
+
 
 
 }

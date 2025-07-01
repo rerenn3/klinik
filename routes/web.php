@@ -23,6 +23,7 @@ Route::get('/', function () {
 });
 
 
+
 Route::controller(DemoController::class)->group(function () {
     Route::get('/about', 'Index')->name('about.page')->middleware('check');
     Route::get('/contact', 'ContactMethod')->name('cotact.page');
@@ -151,6 +152,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Stock All Route
     Route::controller(StockController::class)->group(function () {
+        Route::get('/stock/manage', 'ManageStock')->name('stock.manage');
         Route::get('/stock/report', 'StockReport')->name('stock.report');
         Route::get('/stock/report/pdf', 'StockReportPdf')->name('stock.report.pdf');
 
@@ -179,6 +181,8 @@ Route::controller(UserController::class)->group(function () {
     Route::post('/store/user/{id}', 'UpdateUser')->name('update.user');
     Route::get('/user/delete/{id}', 'UserDelete')->name('user.delete');
 });
+
+
 
 
 
