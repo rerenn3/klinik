@@ -66,6 +66,14 @@
         </div>
     </div>
   <!-- end row -->
+   <div class="row mb-3">
+  <label for="example-text-input" class="col-sm-2 col-form-label">Harga</label>
+  <div class="form-group col-sm-10">
+    <input type="text" name="harga" class="form-control" placeholder="Rp 0">
+  </div>
+</div>
+
+
  
         
 <input type="submit" class="btn btn-info waves-effect waves-light" value="Add Product">

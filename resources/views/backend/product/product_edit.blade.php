@@ -69,6 +69,12 @@
     </div>
   <!-- end row -->
  
+  <div class="row mb-3">
+  <label class="col-sm-2 col-form-label">Harga</label>
+  <div class="col-sm-10">
+    <input type="text" name="harga" class="form-control" value="{{ number_format($product->harga, 0, ',', '.') }}" placeholder="Rp 0">
+  </div>
+</div>
         
 <input type="submit" class="btn btn-info waves-effect waves-light" value="Update Product">
             </form>
