@@ -1,3 +1,4 @@
+
 @extends('admin.admin_master')
 @section('admin')
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -202,7 +203,6 @@
 
  
 
-
 <script id="document-template" type="text/x-handlebars-template">
      
 <tr class="delete_add_more_item" id="delete_add_more_item">
@@ -225,7 +225,8 @@
     </td>
 
     <td>
-        <input type="number" class="form-control unit_price text-right" name="unit_price[]" value=""> 
+        <input type="number" class="form-control unit_price text-right" name="unit_price[]" value="@{{unit_price}}" readonly>
+
     </td>
 
   
@@ -244,45 +245,51 @@
 
 
 <script type="text/javascript">
-    $(document).ready(function(){
-        $(document).on("click",".addeventmore", function(){
-            var date = $('#date').val();
-            var invoice_no = $('#invoice_no').val(); 
-            var category_id  = $('#category_id').val();
-            var category_name = $('#category_id').find('option:selected').text();
-            var product_id = $('#product_id').val();
-            var product_name = $('#product_id').find('option:selected').text();
+    $(document).on("click",".addeventmore", function(){
+    var date = $('#date').val();
+    var invoice_no = $('#invoice_no').val(); 
+    var category_id  = $('#category_id').val();
+    var category_name = $('#category_id').find('option:selected').text();
+    var product_id = $('#product_id').val();
+    var product_name = $('#product_id').find('option:selected').text();
+
+    if(date == ''){
+        $.notify("Date is Required" ,  {globalPosition: 'top right', className:'error' });
+        return false;
+    }
+    if(category_id == ''){
+        $.notify("Category is Required" ,  {globalPosition: 'top right', className:'error' });
+        return false;
+    }
+    if(product_id == ''){
+        $.notify("Product Field is Required" ,  {globalPosition: 'top right', className:'error' });
+        return false;
+    }
+
+    // Ambil harga produk dari database lewat AJAX
+    $.ajax({
+        url: "{{ route('get-product-harga') }}",
+        type: "GET",
+        data: { product_id: product_id },
+        success: function(harga){
+            // Setelah dapat harga, tambahkan row baru dengan harga otomatis
+            var source = $("#document-template").html();
+            var template = Handlebars.compile(source);
+            var data = {
+                date: date,
+                invoice_no: invoice_no, 
+                category_id: category_id,
+                category_name: category_name,
+                product_id: product_id,
+                product_name: product_name,
+                unit_price: harga // field harga dari database
+            };
+            var html = template(data);
+            $("#addRow").append(html); 
+        }
+    });
 
 
-            if(date == ''){
-                $.notify("Date is Required" ,  {globalPosition: 'top right', className:'error' });
-                return false;
-                 }
-                  
-                  if(category_id == ''){
-                $.notify("Category is Required" ,  {globalPosition: 'top right', className:'error' });
-                return false;
-                 }
-                  if(product_id == ''){
-                $.notify("Product Field is Required" ,  {globalPosition: 'top right', className:'error' });
-                return false;
-                 }
-
-
-                 var source = $("#document-template").html();
-                 var tamplate = Handlebars.compile(source);
-                 var data = {
-                    date:date,
-                    invoice_no:invoice_no, 
-                    category_id:category_id,
-                    category_name:category_name,
-                    product_id:product_id,
-                    product_name:product_name
-
-                 };
-                 var html = tamplate(data);
-                 $("#addRow").append(html); 
-        });
 
         $(document).on("click",".removeeventmore",function(event){
             $(this).closest(".delete_add_more_item").remove();

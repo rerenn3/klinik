@@ -1,3 +1,4 @@
+
 <?php
 
 use Illuminate\Support\Facades\Route;
@@ -110,6 +111,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/product/edit/{id}', 'ProductEdit')->name('product.edit');
         Route::post('/product/update', 'ProductUpdate')->name('product.update');
         Route::get('/product/delete/{id}', 'ProductDelete')->name('product.delete');
+        Route::get('/get-product-harga', 'getProductHarga')->name('get-product-harga');
+
     });
 
 

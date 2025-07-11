@@ -113,4 +113,12 @@ class ProductController extends Controller
 
         return redirect()->back()->with($notification);
     } // End Method
+    public function getProductHarga(Request $request)
+    {
+        $product = \App\Models\Product::find($request->product_id);
+        // Field di database: harga
+        return response()->json($product ? $product->harga : 0);
+    }
+
+
 }
