@@ -112,7 +112,7 @@ charistamedika@gmail.com
                                                     @foreach($allData as $key => $item)
                                                     <tr>
                                                         <td class="text-center">{{ $key+1 }}</td>
-                                                        <td class="text-center">{{ $item['payment']['customer']['name']
+                                                        <td class="text-center">{{ $item['payment']['customer']['name'] ?? '-'
                                                             }}</td>
                                                         <td class="text-center">#{{ $item->invoice_no }}</td>
                                                         <td class="text-center">{{ date('d-m-Y',strtotime($item->date))
