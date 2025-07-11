@@ -58,7 +58,7 @@
 
            <div class="col-md-1">
             <div class="md-3">
-                <label for="example-text-input" class="form-label">Stock(Pic/Kg)</label>
+                <label for="example-text-input" class="form-label">Stock</label>
                  <input class="form-control example-date-input" name="current_stock_qty" type="text"  id="current_stock_qty" readonly style="background-color:#ddd" >
             </div>
         </div>
@@ -90,7 +90,7 @@
                     <tr>
                         <th>Category</th>
                         <th>Product Name </th>
-                        <th width="7%">PSC/KG</th>
+                        <th width="7%">Quantity</th>
                         <th width="10%">Unit Price </th> 
                         <th width="15%">Total Price</th>
                         <th width="7%">Action</th> 
