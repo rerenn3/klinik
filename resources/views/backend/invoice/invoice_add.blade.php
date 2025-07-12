@@ -34,23 +34,22 @@
 
        <div class="col-md-3">
             <div class="md-3">
-                <label for="example-text-input" class="form-label">Category Name </label>
-                <select name="category_id" id="category_id" class="form-select select2" aria-label="Default select example">
-                <option selected="">Open this select menu</option>
-                  @foreach($category as $cat)
-                <option value="{{ $cat->id }}">{{ $cat->name }}</option>
-               @endforeach
-                </select>
+                <label for="example-text-input" class="form-label">Category Name</label>
+                <input type="text" id="category_name" class="form-control" readonly>
+                <input type="hidden" name="category_id" id="category_id">
             </div>
         </div>
 
 
-         <div class="col-md-3">
+
+        <div class="col-md-3">
             <div class="md-3">
                 <label for="example-text-input" class="form-label">Product Name </label>
                 <select name="product_id" id="product_id" class="form-select select2" aria-label="Default select example">
-                <option selected="">Open this select menu</option>
-               
+                    <option selected="">Open this select menu</option>
+                    @foreach($products as $product)
+                        <option value="{{ $product->id }}" data-category-id="{{ $product->category_id }}">{{ $product->name }}</option>
+                    @endforeach
                 </select>
             </div>
         </div>
@@ -394,8 +393,34 @@
 
 </script>
 
- 
+<script>
+    // Ambil mapping kategori dari backend
+    var categories = @json($category->pluck('name', 'id'));
+
+    $(document).ready(function() {
+        // Pastikan select2 sudah aktif
+        $('#product_id').select2();
+
+        // Event ganti produk (event paling aman)
+        $('#product_id').on('change', function() {
+            var productId = $(this).val();
+            var option = $('#product_id option[value="' + productId + '"]');
+            var categoryId = option.data('category-id');
+            // Debug log biar yakin
+            console.log('ProductId:', productId, 'CategoryId:', categoryId, 'Categories:', categories);
+            if (categoryId) {
+                $('#category_id').val(categoryId);
+                $('#category_name').val(categories[categoryId]);
+            } else {
+                $('#category_id').val('');
+                $('#category_name').val('');
+            }
+        });
+
+        // Optional: saat reload langsung trigger (misal edit form)
+        $('#product_id').trigger('change');
+    });
+</script>
+@endsection
 
 
- 
-@endsection 
