@@ -46,7 +46,7 @@
         <div class="col-md-3">
             <div class="md-3">
                 <label for="example-text-input" class="form-label">Category Name</label>
-                <input type="text" id="category_name" class="form-control" readonly>
+                <input type="text" id="category_name" class="form-control" readonly >
                 <input type="hidden" name="category_id" id="category_id">
             </div>
         </div>

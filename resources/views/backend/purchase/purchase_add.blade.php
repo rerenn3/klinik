@@ -89,7 +89,7 @@
                     <tr>
                         <th>Category</th>
                         <th>Product Name </th>
-                        <th>PSC/KG</th>
+                        <th>Quantity</th>
                         <th>Unit Price </th>
                         <th>Description</th>
                         <th>Total Price</th>
@@ -167,8 +167,13 @@
     </td>
 
     <td>
-        <input type="number" class="form-control unit_price text-right" name="unit_price[]" value=""> 
+        <input type="number" class="form-control unit_price text-right" name="unit_price[]" value="@{{unit_price}}">
     </td>
+
+    <!-- <td>
+        <input type="number" class="form-control unit_price text-right" name="unit_price[]" value="@{{unit_price}}" readonly>
+    </td> Untuk otomtis harga-->
+
 
  <td>
         <input type="text" class="form-control" name="description[]"> 
@@ -189,7 +194,7 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
-        $(document).on("click",".addeventmore", function(){
+        $(document).on("click", ".addeventmore", function() {
             var date = $('#date').val();
             var purchase_no = $('#purchase_no').val();
             var supplier_id = $('#supplier_id').val();
@@ -198,45 +203,37 @@
             var product_id = $('#product_id').val();
             var product_name = $('#product_id').find('option:selected').text();
 
+            // Validasi (boleh dibiarkan sesuai punyamu)
+            if(date == ''){ $.notify("Date is Required" , {globalPosition: 'top right', className:'error' }); return false;}
+            if(purchase_no == ''){ $.notify("Purchase No is Required" , {globalPosition: 'top right', className:'error' }); return false;}
+            if(supplier_id == ''){ $.notify("Supplier is Required" , {globalPosition: 'top right', className:'error' }); return false;}
+            if(category_id == ''){ $.notify("Category is Required" , {globalPosition: 'top right', className:'error' }); return false;}
+            if(product_id == ''){ $.notify("Product Field is Required" , {globalPosition: 'top right', className:'error' }); return false;}
 
-            if(date == ''){
-                $.notify("Date is Required" ,  {globalPosition: 'top right', className:'error' });
-                return false;
-                 }
-                  if(purchase_no == ''){
-                $.notify("Purchase No is Required" ,  {globalPosition: 'top right', className:'error' });
-                return false;
-                 }
-
-                  if(supplier_id == ''){
-                $.notify("Supplier is Required" ,  {globalPosition: 'top right', className:'error' });
-                return false;
-                 }
-                  if(category_id == ''){
-                $.notify("Category is Required" ,  {globalPosition: 'top right', className:'error' });
-                return false;
-                 }
-                  if(product_id == ''){
-                $.notify("Product Field is Required" ,  {globalPosition: 'top right', className:'error' });
-                return false;
-                 }
-
-
-                 var source = $("#document-template").html();
-                 var tamplate = Handlebars.compile(source);
-                 var data = {
-                    date:date,
-                    purchase_no:purchase_no,
-                    supplier_id:supplier_id,
-                    category_id:category_id,
-                    category_name:category_name,
-                    product_id:product_id,
-                    product_name:product_name
-
-                 };
-                 var html = tamplate(data);
-                 $("#addRow").append(html); 
+            // --- AJAX ambil harga ---
+            $.ajax({
+                url: "{{ route('purchase.get-product-harga') }}",
+                type: "GET",
+                data: { product_id: product_id },
+                success: function(harga) {
+                    var source = $("#document-template").html();
+                    var tamplate = Handlebars.compile(source);
+                    var data = {
+                        date: date,
+                        purchase_no: purchase_no,
+                        supplier_id: supplier_id,
+                        category_id: category_id,
+                        category_name: category_name,
+                        product_id: product_id,
+                        product_name: product_name,
+                        //unit_price: harga // <-- otomatis masuk harga
+                    };
+                    var html = tamplate(data);
+                    $("#addRow").append(html);
+                }
+            });
         });
+
 
         $(document).on("click",".removeeventmore",function(event){
             $(this).closest(".delete_add_more_item").remove();

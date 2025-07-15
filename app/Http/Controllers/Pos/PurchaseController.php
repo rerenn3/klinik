@@ -132,6 +132,13 @@ class PurchaseController extends Controller
         return view('backend.pdf.daily_purchase_report_pdf',compact('allData','start_date','end_date'));
 
     }// End Method 
+    
+    public function getProductHarga(Request $request)
+    {
+        $product = Product::find($request->product_id);
+        return response()->json($product ? $product->harga : 0); // 'harga' = nama kolom harga di tabel product
+    }
+
 
 
 

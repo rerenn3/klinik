@@ -128,6 +128,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         Route::get('/daily/purchase/report', 'DailyPurchaseReport')->name('daily.purchase.report');
         Route::get('/daily/purchase/pdf', 'DailyPurchasePdf')->name('daily.purchase.pdf');
+        Route::get('/purchase/get-product-harga', 'getProductHarga')->name('purchase.get-product-harga');
     });
 
 

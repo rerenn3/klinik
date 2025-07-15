@@ -53,7 +53,7 @@
                   
                  <td>  {{ $item->description }} </td> 
 
-                <td>  $ {{ $item['payment']['total_amount'] }} </td>
+                <td>  Rp. {{ $item['payment']['total_amount'] }} </td>
                
             </tr>
                         @endforeach

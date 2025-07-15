@@ -50,8 +50,8 @@
                 <button type="button" class="btn header-item noti-icon waves-effect" id="page-header-notification-dropdown"
                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="ri-notification-3-line"></i>
-                    @if(isset($lowStockCount) && $lowStockCount > 0)
-                        <span class="badge bg-danger rounded-pill">{{ $lowStockCount }}</span>
+                    @if(isset($totalStockAlerts) && $totalStockAlerts > 0)
+                        <span class="badge bg-danger rounded-pill">{{ $totalStockAlerts }}</span>
                     @endif
                 </button>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
@@ -64,6 +64,7 @@
                         </div>
                     </div>
                     <div data-simplebar style="max-height: 230px;">
+                        {{-- Menampilkan produk stok menipis --}}
                         @if(isset($lowStockItems) && $lowStockItems->count())
                             @foreach($lowStockItems as $item)
                                 <a href="#" class="text-reset notification-item">
@@ -76,13 +77,40 @@
                                         <div class="flex-1">
                                             <h6 class="mt-0 mb-1">{{ $item->name }}</h6>
                                             <div class="font-size-12 text-muted">
-                                                Sisa stok: <strong>{{ $item->stock }}</strong>
+                                                Sisa stok: <strong>{{ $item->current_stock }}</strong>
                                             </div>
                                         </div>
                                     </div>
                                 </a>
                             @endforeach
-                        @else
+                        @endif
+
+                        {{-- Menampilkan produk out of stock --}}
+                        @if(isset($outOfStockItems) && $outOfStockItems->count())
+                            @foreach($outOfStockItems as $item)
+                                <a href="#" class="text-reset notification-item">
+                                    <div class="d-flex">
+                                        <div class="avatar-xs me-3">
+                                            <span class="avatar-title bg-danger rounded-circle font-size-16">
+                                                <i class="ri-capsule-line"></i>
+                                            </span>
+                                        </div>
+                                        <div class="flex-1">
+                                            <h6 class="mt-0 mb-1">{{ $item->name }}</h6>
+                                            <div class="font-size-12 text-muted text-danger">
+                                                <strong>Stok Habis!</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            @endforeach
+                        @endif
+
+                        {{-- Jika tidak ada notifikasi --}}
+                        @if(
+                            (!isset($lowStockItems) || !$lowStockItems->count()) &&
+                            (!isset($outOfStockItems) || !$outOfStockItems->count())
+                        )
                             <div class="text-center text-muted p-3">
                                 Semua stok aman 👍
                             </div>
@@ -90,13 +118,13 @@
                     </div>
                     <div class="p-2 border-top">
                         <a class="btn btn-sm btn-link font-size-14 w-100 text-center" href="{{ route('stock.report') }}">
-
                             <i class="mdi mdi-arrow-right-circle me-1"></i> Lihat Semua Stok
                         </a>
                     </div>
                 </div>
             </div>
             <!-- 🔔 END Notifikasi -->
+
 
             @php
             $id = Auth::user()->id;
