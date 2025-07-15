@@ -245,7 +245,7 @@
     var date = $('#date').val();
     var invoice_no = $('#invoice_no').val(); 
     var category_id  = $('#category_id').val();
-    var category_name = $('#category_id').find('option:selected').text();
+    var category_name = $('#category_name').val();
     var product_id = $('#product_id').val();
     var product_name = $('#product_id').find('option:selected').text();
 
