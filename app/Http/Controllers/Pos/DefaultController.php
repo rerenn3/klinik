@@ -37,6 +37,18 @@ class DefaultController extends Controller
 
     } // End Mehtod 
 
+    public function GetProductHarga(Request $request)
+    {
+        $product = Product::findOrFail($request->product_id);
+        return response()->json([
+            'harga' => $product->harga,        // atau 'unit_price' sesuai nama field harga di tabel kamu
+            'stock' => $product->quantity,     // field stok di table products
+        ]);
+    }
+
+    
+    
+
 
 
 

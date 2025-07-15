@@ -217,7 +217,7 @@
     </td>
 
      <td>
-        <input type="number" min="1" class="form-control selling_qty text-right" name="selling_qty[]" value=""> 
+        <input type="number" min="1" class="form-control selling_qty text-right" name="selling_qty[]" value="" max="@{{stock}}">
     </td>
 
     <td>
@@ -278,7 +278,7 @@
                 category_name: category_name,
                 product_id: product_id,
                 product_name: product_name,
-                unit_price: harga // field harga dari database
+                unit_price: harga 
             };
             var html = template(data);
             $("#addRow").append(html); 
@@ -418,6 +418,48 @@
         $('#product_id').trigger('change');
     });
 </script>
+
+<script>
+$(document).ready(function(){
+
+    function checkStockBeforeAddMore() {
+        // Baca stok dari input stok (readonly)
+        var stock = parseInt($('#current_stock_qty').val());
+        if (isNaN(stock)) stock = 0;
+        
+        if(stock <= 0){
+            // Disable tombol Add More
+            $('.addeventmore').addClass('disabled btn-secondary').removeClass('btn-primary').css('pointer-events','none');
+        } else {
+            // Enable tombol Add More
+            $('.addeventmore').removeClass('disabled btn-secondary').addClass('btn-primary').css('pointer-events','auto');
+        }
+    }
+
+    // Saat halaman di-load
+    checkStockBeforeAddMore();
+
+    // Saat field stok berubah (setiap kali produk dipilih)
+    $('#product_id').on('change', function(){
+        setTimeout(function(){
+            checkStockBeforeAddMore();
+        }, 300);
+    });
+
+    // Juga cek saat field stok berubah manual (misal via AJAX)
+    $('#current_stock_qty').on('input change', function(){
+        checkStockBeforeAddMore();
+    });
+
+    // Jika user memaksa klik, kasih alert (bisa via toast/alert)
+    $(document).on('click', '.addeventmore.disabled', function(e){
+        e.preventDefault();
+        alert('Stok produk ini sudah habis! Tidak bisa ditambahkan ke invoice.');
+    });
+
+});
+</script>
+
 @endsection
 
 
