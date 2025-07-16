@@ -27,7 +27,8 @@ class PurchaseController extends Controller
         $supplier = Supplier::all();
         $unit = Unit::all();
         $category = Category::all();
-        return view('backend.purchase.purchase_add',compact('supplier','unit','category'));
+        $products = Product::with(['category', 'supplier'])->get(); 
+        return view('backend.purchase.purchase_add',compact('supplier','unit','category','products'));
 
     } // End Method 
 

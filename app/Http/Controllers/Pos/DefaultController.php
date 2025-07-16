@@ -46,6 +46,20 @@ class DefaultController extends Controller
         ]);
     }
 
+
+        // app/Http/Controllers/Pos/DefaultController.php
+    public function GetProductInfo($id){
+        $product = Product::with(['category', 'supplier'])->findOrFail($id);
+        return response()->json([
+            'category_id' => $product->category_id,
+            'category_name' => $product->category->name,
+            'supplier_id' => $product->supplier_id,
+            'supplier_name' => $product->supplier->name,
+            'harga' => $product->harga,
+        ]);
+}
+
+
     
     
 
