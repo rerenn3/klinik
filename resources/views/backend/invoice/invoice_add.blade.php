@@ -423,41 +423,51 @@
 $(document).ready(function(){
 
     function checkStockBeforeAddMore() {
-        // Baca stok dari input stok (readonly)
         var stock = parseInt($('#current_stock_qty').val());
         if (isNaN(stock)) stock = 0;
-        
+
         if(stock <= 0){
-            // Disable tombol Add More
-            $('.addeventmore').addClass('disabled btn-secondary').removeClass('btn-primary').css('pointer-events','none');
+            $('.addeventmore')
+                .addClass('disabled btn-secondary')
+                .removeClass('btn-primary')
+                .css('pointer-events','none');
         } else {
-            // Enable tombol Add More
-            $('.addeventmore').removeClass('disabled btn-secondary').addClass('btn-primary').css('pointer-events','auto');
+            $('.addeventmore')
+                .removeClass('disabled btn-secondary')
+                .addClass('btn-primary')
+                .css('pointer-events','auto');
         }
     }
 
     // Saat halaman di-load
     checkStockBeforeAddMore();
 
-    // Saat field stok berubah (setiap kali produk dipilih)
+    // Saat produk diubah
     $('#product_id').on('change', function(){
-        setTimeout(function(){
-            checkStockBeforeAddMore();
-        }, 300);
+        var product_id = $(this).val();
+        $.ajax({
+            url:"{{ route('check-product-stock') }}",
+            type: "GET",
+            data:{product_id:product_id},
+            success:function(data){
+                $('#current_stock_qty').val(data);
+                checkStockBeforeAddMore(); // <--- PENTING! Panggil di sini!
+            }
+        });
     });
 
-    // Juga cek saat field stok berubah manual (misal via AJAX)
+    // Kalau ada input manual (jarang terjadi)
     $('#current_stock_qty').on('input change', function(){
         checkStockBeforeAddMore();
     });
-
-    // Jika user memaksa klik, kasih alert (bisa via toast/alert)
+    
     $(document).on('click', '.addeventmore.disabled', function(e){
         e.preventDefault();
         alert('Stok produk ini sudah habis! Tidak bisa ditambahkan ke invoice.');
     });
 
 });
+
 </script>
 
 @endsection
