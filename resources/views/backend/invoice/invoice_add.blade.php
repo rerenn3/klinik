@@ -216,9 +216,11 @@
         @{{ product_name }}
     </td>
 
-     <td>
+    <td>
         <input type="number" min="1" class="form-control selling_qty text-right" name="selling_qty[]" value="" max="@{{stock}}">
+        <small class="text-danger qty-error" style="display:none;"></small>
     </td>
+
 
     <td>
         <input type="number" class="form-control unit_price text-right" name="unit_price[]" value="@{{unit_price}}" readonly>
@@ -269,6 +271,7 @@
         data: { product_id: product_id },
         success: function(harga){
             // Setelah dapat harga, tambahkan row baru dengan harga otomatis
+            var stock = $('#current_stock_qty').val();
             var source = $("#document-template").html();
             var template = Handlebars.compile(source);
             var data = {
@@ -278,7 +281,9 @@
                 category_name: category_name,
                 product_id: product_id,
                 product_name: product_name,
-                unit_price: harga 
+                unit_price: harga, 
+                stock: stock 
+                
             };
             var html = template(data);
             $("#addRow").append(html); 
@@ -299,6 +304,26 @@
             $(this).closest("tr").find("input.selling_price").val(total);
             $('#discount_amount').trigger('keyup');
         });
+
+        $(document).on('keyup change', '.selling_qty', function() {
+            var $row = $(this).closest('tr');
+            var qty = parseInt($(this).val()) || 0;
+            var maxStock = parseInt($(this).attr('max')) || 0;
+            var $errorMsg = $row.find('.qty-error');
+
+            if (qty > maxStock) {
+                $errorMsg.text('Melebihi Stok saat ini (' + maxStock + ')!').show();
+                $(this).addClass('is-invalid');
+            } else if (qty < 1) {
+                $errorMsg.text('Minimal quantity 1!').show();
+                $(this).addClass('is-invalid');
+            } else {
+                $errorMsg.hide().text('');
+                $(this).removeClass('is-invalid');
+            }
+        });
+
+
 
         $(document).on('keyup','#discount_amount',function(){
             totalAmountPrice();
@@ -360,6 +385,7 @@
                 data:{product_id:product_id},
                 success:function(data){                   
                     $('#current_stock_qty').val(data);
+                    
                 }
             });
         });
@@ -460,13 +486,36 @@ $(document).ready(function(){
     $('#current_stock_qty').on('input change', function(){
         checkStockBeforeAddMore();
     });
-    
+
     $(document).on('click', '.addeventmore.disabled', function(e){
         e.preventDefault();
         alert('Stok produk ini sudah habis! Tidak bisa ditambahkan ke invoice.');
     });
 
 });
+
+</script>
+
+<script>
+$('#storeButton').on('click', function(e) {
+    var isValid = true;
+    $('.selling_qty').each(function(){
+        var qty = parseInt($(this).val()) || 0;
+        var maxStock = parseInt($(this).attr('max')) || 0;
+        if (qty > maxStock || qty < 1) {
+            isValid = false;
+            // Trigger error inline jika belum tampil
+            $(this).trigger('change');
+        }
+    });
+    if (!isValid) {
+        e.preventDefault();
+        
+        toastr.error('Tidak dapat memproses karena jumlah melebihi batas stok. Mohon periksa kembali');
+    }
+});
+
+
 
 </script>
 
