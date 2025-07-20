@@ -151,6 +151,12 @@
             </div> 
             </div> <!-- // end row --> <br>
 
+        <!-- Due Date, hidden by default -->
+        <div class="form-group col-md-3" id="due_date_container" style="display:none;">
+            <label>Due Date (Tanggal Jatuh Tempo)</label>
+            <input type="date" name="due_date" id="due_date" class="form-control" value="{{ date('Y-m-d') }}">
+        </div>
+
 <!-- Hide Add Customer Form -->
 <div class="row new_customer" style="display:none">
     <div class="form-group col-md-4">
@@ -395,22 +401,23 @@
 
 
 <script type="text/javascript">
-    $(document).on('change','#paid_status', function(){
-        var paid_status = $(this).val();
-        if (paid_status == 'partial_paid') {
-            $('.paid_amount').show();
-        }else{
-            $('.paid_amount').hide();
-        }
-    });
+    $(document).ready(function(){
+        $('#paid_status').on('change', function(){
+            let status = $(this).val();
+            if (status === 'full_due' || status === 'partial_paid') {
+                $('#due_date_container').show();
+            } else {
+                $('#due_date_container').hide();
+                $('#due_date').val('');
+            }
 
-      $(document).on('change','#customer_id', function(){
-        var customer_id = $(this).val();
-        if (customer_id == '0') {
-            $('.new_customer').show();
-        }else{
-            $('.new_customer').hide();
-        }
+            // Paid amount show/hide (existing logic)
+            if (status === 'partial_paid') {
+                $('.paid_amount').show();
+            } else {
+                $('.paid_amount').hide();
+            }
+        });
     });
 
 

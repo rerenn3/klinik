@@ -84,10 +84,10 @@ charistamedika@gmail.com
                                                 <tbody>
                                                     <!-- foreach ($order->lineItems as $line) or some such thing here -->
                                                     <tr>
-                                                        <td> {{ $payment['customer']['name'] }}</td>
-                                                        <td class="text-center">{{ $payment['customer']['mobile_no'] }}
+                                                        <td> {{ $payment['customer']['name'] ?? '-' }}</td>
+                                                        <td class="text-center">{{ $payment['customer']['mobile_no'] ?? '-' }}
                                                         </td>
-                                                        <td class="text-center">{{ $payment['customer']['email'] }}</td>
+                                                        <td class="text-center">{{ $payment['customer']['email'] ?? '-' }}</td>
                                                         <td class="text-center">{{ $invoice->description }}</td>
 
                                                     </tr>
@@ -201,6 +201,19 @@ charistamedika@gmail.com
                                                             <strong>Due Amount</strong>
                                                         </td>
                                                         <td class="no-line text-end">Rp{{ $payment->due_amount }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="no-line"></td>
+                                                        <td class="no-line"></td>
+                                                        <td class="no-line"></td>
+                                                        <td class="no-line"></td>
+                                                        <td class="no-line"></td>
+                                                        <td class="no-line text-center">
+                                                            <strong>Due Date</strong>
+                                                        </td>
+                                                        <td class="no-line text-end">
+                                                            {{ $payment->due_date ? date('d-m-Y', strtotime($payment->due_date)) : '-' }}
+                                                        </td>
                                                     </tr>
                                                     <tr>
                                                         <td class="no-line"></td>

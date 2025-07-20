@@ -39,34 +39,37 @@
                                     <th>Date </th>
                                     <th>Desctipion</th>
                                     <th>Amount</th>
+                                    <th>Due Date</th> 
                                     <th>Action</th>
 
                             </thead>
 
 
                             <tbody>
+                            @foreach($allData as $key => $item)
+                            <tr>
+                                <td>{{ $key+1 }}</td>
+                                <td>{{ $item['payment']['customer']['name'] ?? '-' }}</td>
+                                <td>#{{ $item->invoice_no }}</td>
+                                <td>{{ date('d-m-Y', strtotime($item->date)) }}</td>
+                                <td>{{ $item->description }}</td>
+                                <td>Rp {{ $item['payment']['total_amount'] }}</td>
+                                <td>
+                                    {{-- Tampilkan Due Date jika ada --}}
+                                    {{ $item['payment']['due_date'] ?? '-' }}
+                                    {{-- Jika overdue (opsional) --}}
+                                    @if(!empty($item['payment']['due_date']) && \Carbon\Carbon::now()->gt(\Carbon\Carbon::parse($item['payment']['due_date'])))
+                                        <span class="badge bg-danger">Overdue!</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    <a href="{{ route('print.invoice', $item->id) }}" class="btn btn-danger sm"
+                                        title="Print Invoice"> <i class="fa fa-print"></i> </a>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
 
-                                @foreach($allData as $key => $item)
-                                <tr>
-                                    <td> {{ $key+1}} </td>
-                                    <td> {{ $item['payment']['customer']['name'] ?? '-' }} </td>
-                                    <td> #{{ $item->invoice_no }} </td>
-                                    <td> {{ date('d-m-Y',strtotime($item->date)) }} </td>
-
-
-                                    <td> {{ $item->description }} </td>
-
-                                    <td> Rp {{ $item['payment']['total_amount'] }} </td>
-
-                                    <td>
-                                        <a href="{{ route('print.invoice',$item->id) }}" class="btn btn-danger sm"
-                                            title="Print Invoice"> <i class="fa fa-print"></i> </a>
-                                    </td>
-
-                                </tr>
-                                @endforeach
-
-                            </tbody>
                         </table>
 
                     </div>

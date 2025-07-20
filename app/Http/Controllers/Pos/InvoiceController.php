@@ -151,6 +151,13 @@ class InvoiceController extends Controller
                 $payment->due_amount = $request->estimated_amount - $request->paid_amount;
                 $payment_details->current_paid_amount = $request->paid_amount;
             }
+
+            if ($request->paid_status == 'full_due' || $request->paid_status == 'partial_paid') {
+                $payment->due_date = $request->due_date; // Ambil dari input form
+            } else {
+                $payment->due_date = null; // Tidak perlu due date
+            }
+
             $payment->save();
 
             $payment_details->invoice_id = $invoice->id;

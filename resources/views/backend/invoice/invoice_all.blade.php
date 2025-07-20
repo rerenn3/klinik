@@ -37,28 +37,32 @@
                             <th>Date </th>
                             <th>Desctipion</th>  
                             <th>Amount</th>
+                            <th>Due Date</th>
                             
                         </thead>
 
 
                         <tbody>
-                        	 
-                        	@foreach($allData as $key => $item)
-            <tr>
-                <td> {{ $key+1}} </td>
-                <td> {{ $item['payment']['customer']['name'] ?? '-' ?? '-' }} </td> 
-                <td> #{{ $item->invoice_no }} </td> 
-                <td> {{ date('d-m-Y',strtotime($item->date))  }} </td> 
-                 
-                  
-                 <td>  {{ $item->description }} </td> 
-
-                <td>  Rp. {{ $item['payment']['total_amount'] }} </td>
-               
-            </tr>
-                        @endforeach
-                        
+                            @foreach($allData as $key => $item)
+                            <tr>
+                                <td> {{ $key+1 }} </td>
+                                <td> {{ $item['payment']['customer']['name'] ?? '-' }} </td>
+                                <td> #{{ $item->invoice_no }} </td>
+                                <td> {{ date('d-m-Y',strtotime($item->date)) }} </td>
+                                <td>  {{ $item->description }} </td>
+                                <td>  Rp. {{ $item['payment']['total_amount'] }} </td>
+                                <!-- Kolom baru Due Date -->
+                                <td>
+                                    @if(isset($item['payment']['due_date']) && $item['payment']['due_date'])
+                                        {{ \Carbon\Carbon::parse($item['payment']['due_date'])->format('d-m-Y') }}
+                                    @else
+                                        -
+                                    @endif
+                                </td>
+                            </tr>
+                            @endforeach
                         </tbody>
+
                     </table>
         
                                     </div>

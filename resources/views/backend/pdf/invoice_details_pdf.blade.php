@@ -81,10 +81,10 @@ charistamedika@gmail.com
                                                 <tbody>
                                                     <!-- foreach ($order->lineItems as $line) or some such thing here -->
                                                     <tr>
-                                                        <td> {{ $payment['customer']['name'] }}</td>
-                                                        <td class="text-center">{{ $payment['customer']['mobile_no'] }}
+                                                        <td> {{ $payment['customer']['name'] ?? '-' }}</td>
+                                                        <td class="text-center">{{ $payment['customer']['mobile_no'] ?? '-' }}
                                                         </td>
-                                                        <td class="text-center">{{ $payment['customer']['email'] }}</td>
+                                                        <td class="text-center">{{ $payment['customer']['email'] ?? '-' }}</td>
 
 
                                                     </tr>

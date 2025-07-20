@@ -90,7 +90,7 @@ charistamedika@gmail.com
                                                     @foreach($allData as $key => $item)
                                                     <tr>
                                                         <td class="text-center"> {{ $key+1}} </td>
-                                                        <td class="text-center"> {{ $item['customer']['name'] }} </td>
+                                                        <td class="text-center"> {{ $item['customer']['name'] ?? '-' }} </td>
                                                         <td class="text-center"> #{{ $item['invoice']['invoice_no'] }}
                                                         </td>
                                                         <td class="text-center"> {{

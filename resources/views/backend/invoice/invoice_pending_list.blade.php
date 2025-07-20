@@ -39,6 +39,7 @@
                                     <th>Date </th>
                                     <th>Desctipion</th>
                                     <th>Amount</th>
+                                    <th>Due Date</th>
                                     <th>Status</th>
                                     <th>Action</th>
 
@@ -46,39 +47,34 @@
 
 
                             <tbody>
-
                                 @foreach($allData as $key => $item)
                                 <tr>
                                     <td> {{ $key+1}} </td>
-                                    <td>{{ $item['payment']['customer']['name'] ?? '-' ?? '-' }}</td>
+                                    <td>{{ $item['payment']['customer']['name'] ?? '-' }}</td>
                                     <td> #{{ $item->invoice_no }} </td>
                                     <td> {{ date('d-m-Y',strtotime($item->date)) }} </td>
-
-
                                     <td> {{ $item->description }} </td>
-
                                     <td> Rp {{ $item['payment']['total_amount'] }} </td>
-
-                                    <td> @if($item->status == '0')
+                                    <td>
+                                        {{ $item['payment']['due_date'] ? date('d-m-Y', strtotime($item['payment']['due_date'])) : '-' }}
+                                    </td>
+                                    <td>
+                                        @if($item->status == '0')
                                         <span class="btn btn-warning">Pending</span>
                                         @elseif($item->status == '1')
                                         <span class="btn btn-success">Approved</span>
                                         @endif
                                     </td>
-
                                     <td>
                                         @if($item->status == '0')
                                         <a href="{{ route('invoice.approve',$item->id) }}" class="btn btn-dark sm"
                                             title="Approved Data"> <i class="fas fa-check-circle"></i> </a>
-
                                         <a href="{{ route('invoice.delete',$item->id) }}" class="btn btn-danger sm"
                                             title="Delete Data" id="delete"> <i class="fas fa-trash-alt"></i> </a>
                                         @endif
                                     </td>
-
                                 </tr>
                                 @endforeach
-
                             </tbody>
                         </table>
 

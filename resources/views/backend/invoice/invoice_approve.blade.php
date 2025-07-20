@@ -106,6 +106,18 @@
             <td colspan="6"> Grand Amount </td>
              <td >{{ $payment->total_amount }}</td>
         </tr>
+
+        <tr>
+            <td colspan="6">Due Date</td>
+            <td>
+                @if($payment->due_date)
+                    {{ \Carbon\Carbon::parse($payment->due_date)->format('d-m-Y') }}
+                @else
+                    -
+                @endif
+            </td>
+        </tr>
+
     </tbody>
              
          </table>
