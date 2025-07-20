@@ -47,11 +47,18 @@
                         <tr>
                             <td> {{ $key+1}} </td>
                             <td> {{ $item['customer']['name'] }} </td> 
-                            <td> {{ $item['invoice']['invoice_no'] }}</td> 
-                            <td> {{ date('d-m-Y',strtotime($item['invoice']['date'])) }} </td> 
+                            <td> {{ $item['invoice']['invoice_no'] ?? '-' }}</td> 
+                            <td> {{ date('d-m-Y',strtotime($item['invoice']['date'] ?? '-')) }} </td> 
                             <td> {{ $item->due_amount }} </td> 
                             <td>
-   <a href="{{ route('customer.invoice.details.pdf',$item->invoice_id) }}" class="btn btn-info sm" target="_black" title="Customer Details">  <i class="fa fa-eye"></i> </a>
+                            @if(!empty($item->invoice_id))
+                                <a href="{{ route('customer.invoice.details.pdf', $item->invoice_id) }}" class="btn btn-info sm" target="_blank">
+                                    Cetak
+                                </a>
+                            @else
+                                <span class="text-muted">-</span>
+                            @endif
+
  
 
                             </td>

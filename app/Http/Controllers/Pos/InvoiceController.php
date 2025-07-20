@@ -27,6 +27,15 @@ class InvoiceController extends Controller
         return view('backend.invoice.invoice_all', compact('allData'));
     } // End Method
 
+    public function PendingList()
+    {
+        $allData = Invoice::orderBy('date', 'desc')
+                          ->orderBy('id', 'desc')
+                          ->where('status', '0')
+                          ->get();
+        return view('backend.invoice.invoice_pending_list', compact('allData'));
+    }
+
 
     public function invoiceAdd()
     {

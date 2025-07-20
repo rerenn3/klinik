@@ -11,7 +11,7 @@
     <div class="card">
         <div class="card-body"> 
 
-            <h4 class="card-title">Add Invoice  </h4><br><br>
+            <h4 class="card-title">Add Sales  </h4><br><br>
              
 
     <div class="row">
@@ -169,7 +169,7 @@
 
  <br>
             <div class="form-group">
-                <button type="submit" class="btn btn-info" id="storeButton"> Invoice Store</button>
+                <button type="submit" class="btn btn-info" id="storeButton"> Submit</button>
                 
             </div>
             
