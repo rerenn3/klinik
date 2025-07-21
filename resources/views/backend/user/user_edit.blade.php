@@ -53,6 +53,8 @@
                                         </option>
                                         <option {{$userEdit->role == "user" ? 'selected' : ''}} value="user">User
                                         </option>
+                                        <option {{$userEdit->role == "staff" ? 'selected' : ''}} value="staff">Staff
+                                        </option>
                                     </select>
                                 </div>
                             </div>
