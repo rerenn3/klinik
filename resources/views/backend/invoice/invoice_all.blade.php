@@ -23,7 +23,9 @@
             <div class="card">
                 <div class="card-body">
 
-    <a href="{{ route('invoice.add') }}" class="btn btn-dark btn-rounded waves-effect waves-light" style="float:right;"><i class="fas fa-plus-circle"> Add Sales </i></a> <br>  <br>               
+                    @role('admin')
+                        <a href="{{ route('invoice.add') }}" class="btn btn-dark btn-rounded waves-effect waves-light" style="float:right;"><i class="fas fa-plus-circle"> Add Sales </i></a> <br>  <br>
+                    @endrole               
 
                     <h4 class="card-title">Sales All Data </h4>
                     

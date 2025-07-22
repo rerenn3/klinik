@@ -10,7 +10,9 @@
     <div class="card">
         <div class="card-body">
 
-            <h4 class="card-title">Add Purchase  </h4><br><br>
+            @role('admin')
+               <h4 class="card-title">Add Purchase  </h4><br><br>
+            @endrole
             
     <div class="row">
         <div class="col-md-4">

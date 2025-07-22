@@ -11,7 +11,9 @@
     <div class="card">
         <div class="card-body"> 
 
+            @role('admin')
             <h4 class="card-title">Add Sales  </h4><br><br>
+            @endrole
              
 
     <div class="row">
