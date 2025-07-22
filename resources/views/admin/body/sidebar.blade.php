@@ -10,7 +10,7 @@
             <!-- Left Menu Start -->
             <ul class="metismenu list-unstyled" id="side-menu">
                 <li class="menu-title">Menu</li>
-
+                
                 <li>
                     <a href="{{ url('/dashboard') }}" class="waves-effect">
                         <i class="ri-home-fill"></i>
@@ -18,7 +18,7 @@
                     </a>
                 </li>
 
-
+                @role('admin')
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="ri-hotel-fill"></i>
@@ -29,24 +29,30 @@
 
                     </ul>
                 </li>
+                @endrole
 
-
+                @if(auth()->user()->hasAnyRole(['admin','user']))
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="ri-shield-user-fill"></i>
                         <span>Manage Customers</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
+                        @if(auth()->user()->hasAnyRole(['admin']))
                         <li><a href="{{ route('customer.all') }}">All Customers</a></li>
-                        <li><a href="{{ route('credit.customer') }}">Credit Customers</a></li>
+                        @endif
 
-                        <li><a href="{{ route('paid.customer') }}">Paid Customers</a></li>
-                        <li><a href="{{ route('customer.wise.report') }}">Customer Report</a></li>
+                        @if(auth()->user()->hasAnyRole(['user']))
+                            <li><a href="{{ route('credit.customer') }}">Credit Customers</a></li>
+                            <li><a href="{{ route('paid.customer') }}">Paid Customers</a></li>
+                            <li><a href="{{ route('customer.wise.report') }}">Customer Report</a></li>
+                        @endif
 
                     </ul>
                 </li>
+                @endif
 
-
+                @role('admin')
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="ri-delete-back-fill"></i>
@@ -57,7 +63,9 @@
 
                     </ul>
                 </li>
+                @endrole
 
+                @role('admin')
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="ri-apps-2-fill"></i>
@@ -68,8 +76,10 @@
 
                     </ul>
                 </li>
+                @endrole
 
 
+                @role('admin')
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="ri-reddit-fill"></i>
@@ -80,7 +90,7 @@
 
                     </ul>
                 </li>
-
+                @endrole
 
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
@@ -89,13 +99,15 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="{{ route('purchase.all') }}">All Purchase</a></li>
-                        <li><a href="{{ route('purchase.pending') }}">Approval Purchase</a></li>
-                        <li><a href="{{ route('daily.purchase.report') }}">Daily Purchase Report</a></li>
+                        @if(auth()->user()->hasAnyRole(['user','staff']))
+                            <li><a href="{{ route('purchase.pending') }}">Approval Purchase</a></li>
+                            <li><a href="{{ route('daily.purchase.report') }}">Daily Purchase Report</a></li>
+                        @endif
 
                     </ul>
                 </li>
 
-
+                @if(auth()->user()->hasAnyRole(['admin','user']))
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="ri-compass-2-fill"></i>
@@ -103,12 +115,16 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="{{ route('invoice.all') }}">All Sales</a></li>
-                        <li><a href="{{ route('invoice.pending.list') }}">Approval Sales</a></li>
+                        @if(auth()->user()->hasAnyRole(['user']))
+                            <li><a href="{{ route('invoice.pending.list') }}">Approval Sales</a></li>
+                        @endif
+                        @if(auth()->user()->hasAnyRole(['admin']))
                         <li><a href="{{ route('print.invoice.list') }}">Print Sales List</a></li>
                         <li><a href="{{ route('daily.invoice.report') }}">Daily Sales Report</a></li>
-
-                    </ul>
+                        @endif
+                    </ul>  
                 </li>
+                @endif
 
 
 
@@ -131,7 +147,7 @@
                 </li>
 
 
-                @if (Auth::user()->role == 'admin')
+                @if (Auth::user()->role == 'user')
                 <li class="menu-title">User</li>
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
