@@ -22,10 +22,12 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
+                        @role('admin')
 
                         <a href="{{ route('stock.report.pdf') }}" target="_blank"
                             class="btn btn-dark btn-rounded waves-effect waves-light" style="float:right;"><i
                                 class="fa fa-print"> Stock Report Print </i></a> <br> <br>
+                        @endrole
 
                         <h4 class="card-title">Stock Report </h4>
 

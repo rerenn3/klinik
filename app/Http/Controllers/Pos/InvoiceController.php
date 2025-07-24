@@ -173,7 +173,7 @@ class InvoiceController extends Controller
         if ($request->paid_status == 'full_paid') {
             return redirect()->route('invoice.all')->with($notification);
         } else {
-            return redirect()->route('invoice.pending.list')->with($notification);
+            return redirect()->route('invoice.add')->with($notification);
         }
     }
 

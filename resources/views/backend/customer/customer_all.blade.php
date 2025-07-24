@@ -36,7 +36,6 @@
                             <th>Customer Image </th>
                             <th>Email</th>
                             <th>Address</th>
-                            <th>Due Date</th>
                             <th>Action</th>
                             
                         </thead>

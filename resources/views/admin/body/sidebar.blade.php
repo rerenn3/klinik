@@ -131,7 +131,7 @@
 
 
 
-
+                @if(auth()->user()->hasAnyRole(['admin','staff']))
                 <li class="menu-title">Stock</li>
 
                 <li>
@@ -145,6 +145,7 @@
 
                     </ul>
                 </li>
+                @endif
 
 
                 @if (Auth::user()->role == 'user')

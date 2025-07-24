@@ -528,6 +528,23 @@ $('#storeButton').on('click', function(e) {
 
 </script>
 
+<script>
+$(document).ready(function(){
+    $('#customer_id').on('change', function(){
+        var customer_id = $(this).val();
+        if (customer_id == '0') {
+            $('.new_customer').show();
+        } else {
+            $('.new_customer').hide();
+        }
+    });
+
+    // Optional: trigger saat reload untuk keadaan edit
+    $('#customer_id').trigger('change');
+});
+</script>
+
+
 @endsection
 
 
